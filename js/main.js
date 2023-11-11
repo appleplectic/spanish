@@ -66,7 +66,12 @@ function new_conj() {
     const sub_i = Math.floor(Math.random() * 6);
     // const extra_notes = csv[verb_i][2];
     $("#conj")[0].innerHTML = subjects[sub_i] + " " + csv[verb_i][0];
-    conj.focus();
+    if (checkDef.checked) {
+        def.focus();
+    }
+    else {
+        conj.focus();
+    }
     conj_answer = csv[verb_i][2 + sub_i];
     def_answer = csv[verb_i][1];
     $("#def_ans")[0].innerHTML = def_answer;
@@ -75,15 +80,17 @@ function new_conj() {
 }
 conj.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
-        if (!checkDef.checked) {
-            $("#sub")[0].click();
-        }
-        $("#def_inp")[0].focus();
+        $("#sub")[0].click();
     }
 });
 def.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
-        $("#sub")[0].click();
+        if (!checkConj.checked) {
+            $("#sub")[0].click();
+        }
+        else {
+            $("#conj_inp")[0].focus();
+        }
     }
 });
 $("#sub")[0].addEventListener("click", function () {
