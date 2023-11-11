@@ -33,32 +33,41 @@ function onChange(check: HTMLInputElement) {
     def_hid.hidden = !checkDef.checked;
 }
 
-const inputElement = $("#formFile")[0];
+const inputElement = $("#formFile")[0] as HTMLInputElement;
 let csv: [string[]];
 
-if (inputElement instanceof HTMLInputElement) {
-    inputElement.addEventListener("change", function (event) {
-        const fileInput = event.target as HTMLInputElement;
-        if ((fileInput.files == null) || fileInput.files.length === 0) {
-            console.error("No file selected.");
-            return;
-        }
-        const file = fileInput.files[0];
-        Papa.parse(file, {
-            complete: function (results) {
-                const data: [string[]] = results.data as [string[]];
-                data.shift();
-                if (data[data.length - 1][0] === "") {
-                    data.pop();
-                }
-                $("#hid")[0].style.visibility = "visible";
+function parse_csv(results: { data: [string[]]; }) {
+    const data: [string[]] = results.data as [string[]];
+    data.shift();
+    if (data[data.length - 1][0] === "") {
+        data.pop();
+    }
+    $("#hid")[0].style.visibility = "visible";
 
-                csv = data;
-                new_conj();
-            }
-        });
-    });
+    csv = data;
+    new_conj();
 }
+
+$("#useDefault")[0].addEventListener("click", function () {
+    // @ts-expect-error types broken
+    Papa.parse("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/spanish.csv", {
+        download: true,
+        complete: parse_csv
+    });
+});
+
+inputElement.addEventListener("change", function (event) {
+    const fileInput = event.target as HTMLInputElement;
+    if ((fileInput.files == null) || fileInput.files.length === 0) {
+        console.error("No file selected.");
+        return;
+    }
+    const file = fileInput.files[0];
+    // @ts-expect-error types broken
+    Papa.parse(file, {
+        complete: parse_csv
+    });
+});
 
 let conj_answer: string, def_answer: string;
 let num_correct: number = 0, num_total: number = 0;
@@ -73,7 +82,7 @@ function new_conj() {
     const sub_i = Math.floor(Math.random() * 6);
     // const extra_notes = csv[verb_i][2];
     $("#conj")[0].innerHTML = subjects[sub_i] + " " + csv[verb_i][0];
-    
+
     if (checkDef.checked) {
         def.focus();
     } else {

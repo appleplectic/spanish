@@ -32,28 +32,35 @@ function onChange(check) {
 }
 const inputElement = $("#formFile")[0];
 let csv;
-if (inputElement instanceof HTMLInputElement) {
-    inputElement.addEventListener("change", function (event) {
-        const fileInput = event.target;
-        if ((fileInput.files == null) || fileInput.files.length === 0) {
-            console.error("No file selected.");
-            return;
-        }
-        const file = fileInput.files[0];
-        Papa.parse(file, {
-            complete: function (results) {
-                const data = results.data;
-                data.shift();
-                if (data[data.length - 1][0] === "") {
-                    data.pop();
-                }
-                $("#hid")[0].style.visibility = "visible";
-                csv = data;
-                new_conj();
-            }
-        });
-    });
+function parse_csv(results) {
+    const data = results.data;
+    data.shift();
+    if (data[data.length - 1][0] === "") {
+        data.pop();
+    }
+    $("#hid")[0].style.visibility = "visible";
+    csv = data;
+    new_conj();
 }
+$("#useDefault")[0].addEventListener("click", function () {
+    // @ts-expect-error types broken
+    Papa.parse("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/spanish.csv", {
+        download: true,
+        complete: parse_csv
+    });
+});
+inputElement.addEventListener("change", function (event) {
+    const fileInput = event.target;
+    if ((fileInput.files == null) || fileInput.files.length === 0) {
+        console.error("No file selected.");
+        return;
+    }
+    const file = fileInput.files[0];
+    // @ts-expect-error types broken
+    Papa.parse(file, {
+        complete: parse_csv
+    });
+});
 let conj_answer, def_answer;
 let num_correct = 0, num_total = 0;
 const conj = $("#conj_inp")[0];
