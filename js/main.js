@@ -144,7 +144,7 @@ genSentence.addEventListener("click", function () {
         const possibleVerbs = csv[verbIndex].slice(2, 8);
         const wrongVerb = csv[wrongVerbIndex][0];
         const verbTense = csv[verbIndex][8];
-        const url = new URL("http://136.56.0.72:3030/");
+        const url = new URL("https://api-backend.appleplectic.org:3030/");
         const params = {
             verb: verb,
             tense: verbTense
