@@ -6,11 +6,6 @@ tooltipTriggerList.map(function (tooltipTriggerEl) {
         trigger: "hover"
     });
 });
-$(document).on("click", function () {
-    setTimeout(function () {
-        $("[data-toggle=\"tooltip\"]").tooltip("hide");
-    }, 500);
-});
 const checkDef = $("#checkDef")[0];
 const checkConj = $("#checkConj")[0];
 const defHide = $("#defHide")[0];
@@ -194,6 +189,7 @@ ${splitted[1]} (${randomArr[0]}/${randomArr[1]})`;
         });
     }
     subSentences.addEventListener("click", function () {
+        $(this).tooltip("hide");
         let numCorrect = 0;
         let numTotal = 0;
         for (let i = 1; i < 6; i++) {
