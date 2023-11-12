@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>Spanish</title>
+    <title>Spanish Thing</title>
+    <link href="assets/favicon.ico" rel="icon" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
 </head>
@@ -11,6 +12,8 @@
 <h1>Spanish Thing</h1>
 <div class="top-right">
     <p>Designed by Levin.</p>
+    <p class="no-padding-after">If this helped you,</p>
+    <p class="no-padding-after">please buy me food :D</p>
 </div>
 <div class="spacer-1"></div>
 
@@ -35,21 +38,21 @@
 </div>
 <div class="spacer-1"></div>
 
-<div id="hid" style="visibility: hidden;">
+<div class="invisible" id="hid">
     <h2 id="conj"></h2>
     <div class="spacer-1"></div>
 
-    <div id="def_hid">
+    <div id="defHide">
         <div class="mb-3">
-            <label for="def_inp">Definition</label>
-            <input class="form-control" id="def_inp" placeholder="Enter definition" type="text">
+            <label for="defInput">Definition</label>
+            <input class="form-control" id="defInput" placeholder="Enter definition" type="text">
         </div>
     </div>
 
-    <div id="conj_hid">
+    <div id="conjHide">
         <div class="mb-3">
-            <label for="conj_inp">Conjugation</label>
-            <input class="form-control" id="conj_inp" placeholder="Enter conjugation" type="text">
+            <label for="conjInput">Conjugation</label>
+            <input class="form-control" id="conjInput" placeholder="Enter conjugation" type="text">
         </div>
         <div class="spacer-2"></div>
     </div>
@@ -67,8 +70,8 @@
                     <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body">
-                    <p id="def_ans"></p>
-                    <p id="conj_ans"></p>
+                    <p id="defAnswer"></p>
+                    <p id="conjAnswer"></p>
                     <p id="extra"></p>
                 </div>
                 <div class="modal-footer">
@@ -79,17 +82,59 @@
     </div>
 
     <div class="spacer-1"></div>
-    <h2 id="result"></h2>
-    <h2 id="num_result"></h2>
+    <h3 id="result"></h3>
+    <h3 id="numResult"></h3>
 
     <div class="spacer-1"></div>
 
-    <button class="btn btn-warning" data-bs-placement="bottom" data-bs-toggle="tooltip" id="gen_sentences"
-            title="You can only click this once/minute. Don't exploit this or ban. NOT WORKING ATM"
+    <p class="no-padding-after">Simulate a test by generating practice sentences, choosing a verb and conjugating
+        it.</p>
+    <p class="no-padding-after">Because of high costs, please only click the button once per minute.</p>
+    <p>Donate to generate more, better practice sentences!</p>
+    <p class="no-padding-after">It takes some time to show up; however, if nothing shows up, you</p>
+    <p class="no-padding-after">(or someone on your network) have probably clicked it too many times.</p>
+    <p class="no-padding-after">Try waiting a few minutes; if it still doesn't work, contact Levin.</p>
+    <p class="no-padding-after">Thank you for understanding.</p>
+    <div class="spacer-1"></div>
+
+    <button class="btn btn-warning" data-bs-placement="bottom" data-bs-toggle="tooltip" id="genSentences"
+            title="Only click this once every minute."
             type="button">
         Generate Practice Sentences
     </button>
 
+    <div class="spacer-1"></div>
+
+    <h6 class="invisible" id="sentence1">
+        Hello
+        <input class="form-control d-inline-block" id="blank1" type="text">
+        Hello
+    </h6>
+    <h6 class="invisible" id="sentence2">
+        Hello
+        <input class="form-control d-inline-block" id="blank2" type="text">
+        Hello
+    </h6>
+    <h6 class="invisible" id="sentence3">
+        Hello
+        <input class="form-control d-inline-block" id="blank3" type="text">
+        Hello
+    </h6>
+    <h6 class="invisible" id="sentence4">
+        Hello
+        <input class="form-control d-inline-block" id="blank4" type="text">
+        Hello
+    </h6>
+    <h6 class="invisible" id="sentence5">
+        Hello
+        <input class="form-control d-inline-block" id="blank5" type="text">
+        Hello
+    </h6>
+
+    <div class="spacer-2"></div>
+    <button class="btn btn-primary invisible" id="subSentences" type="button">Submit Sentences</button>
+    <div class="spacer-1"></div>
+    <h3 id="senResult"></h3>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

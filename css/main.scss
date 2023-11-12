@@ -7,7 +7,7 @@ body {
 }
 
 .spacer-1 {
-  padding: 10px;
+  padding: 12px;
 }
 
 .spacer-2 {
@@ -21,7 +21,7 @@ body {
   margin: 30px;
 }
 
-#gen_sentences {
+#genSentences {
   pointer-events: auto;
 }
 
@@ -37,4 +37,17 @@ body {
 
 .form-control {
   flex-grow: 1;
+}
+
+.no-padding-after {
+  margin: 0;
+}
+
+.d-inline-block {
+  width: auto;
+  height: 25px;
+}
+
+.invisible {
+  display: none;
 }

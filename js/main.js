@@ -8,8 +8,8 @@ tooltipTriggerList.map(function (tooltipTriggerEl) {
 });
 const checkDef = $("#checkDef")[0];
 const checkConj = $("#checkConj")[0];
-const def_hid = $("#def_hid")[0];
-const conj_hid = $("#conj_hid")[0];
+const defHide = $("#defHide")[0];
+const conjHide = $("#conjHide")[0];
 checkDef.checked = true;
 checkConj.checked = true;
 checkDef.addEventListener("change", () => {
@@ -27,26 +27,27 @@ function onChange(check) {
             checkDef.checked = true;
         }
     }
-    conj_hid.hidden = !checkConj.checked;
-    def_hid.hidden = !checkDef.checked;
+    conjHide.hidden = !checkConj.checked;
+    defHide.hidden = !checkDef.checked;
 }
 const inputElement = $("#formFile")[0];
 let csv;
-function parse_csv(results) {
+let firstLine;
+function parseCSV(results) {
     const data = results.data;
-    data.shift();
+    firstLine = data.shift();
     if (data[data.length - 1][0] === "") {
         data.pop();
     }
-    $("#hid")[0].style.visibility = "visible";
+    $("#hid")[0].classList.toggle("invisible", false);
     csv = data;
-    new_conj();
+    newConjugation();
 }
 $("#useDefault")[0].addEventListener("click", function () {
     // @ts-expect-error types broken
     Papa.parse("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/spanish.csv", {
         download: true,
-        complete: parse_csv
+        complete: parseCSV
     });
 });
 inputElement.addEventListener("change", function (event) {
@@ -58,32 +59,32 @@ inputElement.addEventListener("change", function (event) {
     const file = fileInput.files[0];
     // @ts-expect-error types broken
     Papa.parse(file, {
-        complete: parse_csv
+        complete: parseCSV
     });
 });
-let conj_answer, def_answer;
-let num_correct = 0, num_total = 0;
-const conj = $("#conj_inp")[0];
-const def = $("#def_inp")[0];
-function new_conj() {
+let conjAnswer, defAnswer;
+let numCorrect = 0, numTotal = 0;
+const conj = $("#conjInput")[0];
+const def = $("#defInput")[0];
+function newConjugation() {
     conj.value = "";
     def.value = "";
-    const verb_i = Math.floor(Math.random() * csv.length);
-    const subjects = ["Yo", "Tú", "Él/Ella/Usted", "Nosotros", "Vosotros", "Ellos/Ellas/Ustedes"];
-    const sub_i = Math.floor(Math.random() * 6);
-    // const extra_notes = csv[verb_i][2];
-    $("#conj")[0].innerHTML = subjects[sub_i] + " " + csv[verb_i][0];
+    const verbIndex = Math.floor(Math.random() * csv.length);
+    const subjects = firstLine.slice(2);
+    const subjectIndex = Math.floor(Math.random() * 6);
+    // const extraNotes = csv[verbIndex][2];
+    $("#conj")[0].innerHTML = subjects[subjectIndex] + " " + csv[verbIndex][0];
     if (checkDef.checked) {
         def.focus();
     }
     else {
         conj.focus();
     }
-    conj_answer = csv[verb_i][2 + sub_i];
-    def_answer = csv[verb_i][1];
-    $("#def_ans")[0].innerHTML = def_answer;
-    $("#conj_ans")[0].innerHTML = conj_answer;
-    // $("#extra")[0].innerHTML = extra_notes;
+    conjAnswer = csv[verbIndex][2 + subjectIndex];
+    defAnswer = csv[verbIndex][1];
+    $("#defAnswer")[0].innerHTML = defAnswer;
+    $("#conjAnswer")[0].innerHTML = conjAnswer;
+    // $("#extra")[0].innerHTML = extraNotes;
 }
 conj.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
@@ -96,7 +97,7 @@ def.addEventListener("keyup", function (event) {
             $("#sub")[0].click();
         }
         else {
-            $("#conj_inp")[0].focus();
+            $("#conjInput")[0].focus();
         }
     }
 });
@@ -111,23 +112,100 @@ $("#sub")[0].addEventListener("click", function () {
         def.focus();
         return;
     }
-    if ((conj.value === conj_answer || !checkConj.checked) && (def.value === def_answer || !checkDef.checked)) {
+    if ((conj.value === conjAnswer || !checkConj.checked) && (def.value === defAnswer || !checkDef.checked)) {
         $("#result")[0].innerHTML = "Correct!";
-        num_correct++;
-        num_total++;
-        new_conj();
+        numCorrect++;
+        numTotal++;
+        newConjugation();
     }
     else {
         $("#result")[0].innerHTML = "Incorrect.";
-        num_total++;
+        numTotal++;
         conj.focus();
     }
-    $("#num_result")[0].innerHTML = `${num_correct} / ${num_total} - ${Math.round((num_correct / num_total) * 100)}%`;
+    $("#numResult")[0].innerHTML = `${numCorrect} / ${numTotal} - ${Math.round((numCorrect / numTotal) * 100)}%`;
 });
-const genSentence = $("#gen_sentences")[0];
+const genSentence = $("#genSentences")[0];
 genSentence.addEventListener("click", function () {
     genSentence.disabled = true;
     setTimeout(function () {
         genSentence.disabled = false;
-    }, 60000);
+    }, 120000);
+    const subSentences = $("#subSentences")[0];
+    subSentences.classList.toggle("invisible", false);
+    const answerList = {};
+    for (let i = 1; i < 6; i++) {
+        const verbIndex = Math.floor(Math.random() * csv.length);
+        let wrongVerbIndex = Math.floor(Math.random() * csv.length);
+        while (wrongVerbIndex === verbIndex) {
+            wrongVerbIndex = Math.floor(Math.random() * csv.length);
+        }
+        const verb = csv[verbIndex][0];
+        const possibleVerbs = csv[verbIndex].slice(2, 8);
+        const wrongVerb = csv[wrongVerbIndex][0];
+        const verbTense = csv[verbIndex][8];
+        const url = new URL("http://136.56.0.72:3030/");
+        const params = {
+            verb: verb,
+            tense: verbTense
+        };
+        url.search = new URLSearchParams(params).toString();
+        fetch(url)
+            .then(response => {
+            if (response.status === 500) {
+                throw new Error("Internal Server Error: 500");
+            }
+            return response.text();
+        })
+            .then(data => {
+            console.log(data);
+            let answer = "";
+            for (const pverb of possibleVerbs) {
+                if (data.includes(pverb)) {
+                    answer = pverb;
+                    break;
+                }
+            }
+            answerList[i] = answer;
+            const sentence = $(`#sentence${i}`)[0];
+            sentence.style.color = "rgb(0,0,0)";
+            console.log(`#sentence${i}`);
+            sentence.classList.toggle("invisible", false);
+            if (answer === "") {
+                sentence.innerHTML = "An error occurred; please ignore. If this happens a lot, contact Levin.";
+                throw new Error("Internal Server Error: Verb Not Found");
+            }
+            const splitted = data.split(answer);
+            let randomArr = [wrongVerb, verb];
+            if (Math.round(Math.random()) === 1) {
+                randomArr = randomArr.reverse();
+            }
+            sentence.innerHTML = `${splitted[0]}
+<input class="form-control d-inline-block" id="blank${i}" type="text">
+${splitted[1]} (${randomArr[0]}/${randomArr[1]})`;
+        })
+            .catch(error => {
+            console.error("Error: ", error);
+        });
+    }
+    subSentences.addEventListener("click", function () {
+        let numCorrect = 0;
+        let numTotal = 0;
+        for (let i = 1; i < 6; i++) {
+            const answer = answerList[i];
+            if (answer !== "") {
+                const hElem = $(`#sentence${i}`)[0];
+                const inputElem = $(`#blank${i}`)[0];
+                if (inputElem.value === answer) {
+                    hElem.style.color = "rgb(0,255,0)";
+                    numCorrect++;
+                }
+                else {
+                    hElem.style.color = "rgb(255,0,0)";
+                }
+                numTotal++;
+            }
+        }
+        $("#senResult")[0].innerHTML = `${numCorrect} / ${numTotal} - ${Math.round((numCorrect / numTotal) * 100)}%`;
+    });
 });
