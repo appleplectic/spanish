@@ -18,7 +18,7 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  margin: 30px;
+  margin: 15px;
 }
 
 #genSentences {
@@ -50,4 +50,9 @@ body {
 
 .invisible {
   display: none;
+}
+
+.wrap-text {
+  width: 100%;
+  max-width: 500px;
 }
