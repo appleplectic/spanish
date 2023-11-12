@@ -6,6 +6,11 @@ tooltipTriggerList.map(function (tooltipTriggerEl) {
         trigger: "hover"
     });
 });
+$(document).on("click", function () {
+    setTimeout(function () {
+        $("[data-toggle=\"tooltip\"]").tooltip("hide");
+    }, 500);
+});
 const checkDef = $("#checkDef")[0];
 const checkConj = $("#checkConj")[0];
 const defHide = $("#defHide")[0];
