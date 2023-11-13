@@ -169,11 +169,9 @@ genSentence.addEventListener("click", function () {
             answerList[i] = answer;
             const sentence = $(`#sentence${i}`)[0];
             sentence.style.color = "rgb(0,0,0)";
-            console.log(`#sentence${i}`);
             sentence.classList.toggle("invisible", false);
             if (answer === "") {
-                sentence.innerHTML = "An error occurred; please ignore. If this happens a lot, contact Levin.";
-                throw new Error("Internal Server Error: Verb Not Found");
+                throw new Error("Verb Not Found");
             }
             const splitted = data.split(answer);
             let randomArr = [wrongVerb, verb];
@@ -186,10 +184,17 @@ ${splitted[1]} (${randomArr[0]}/${randomArr[1]})`;
         })
             .catch(error => {
             console.error("Error: ", error);
+            const sentence = $(`#sentence${i}`)[0];
+            sentence.classList.toggle("invisible", false);
+            if (error.toString().includes("Verb Not Found")) {
+                sentence.innerHTML = "An normal error occurred; please ignore.";
+            }
+            else {
+                sentence.innerHTML = "Try waiting a few minutes before pressing again; if the error recurs, contact Levin.";
+            }
         });
     }
     subSentences.addEventListener("click", function () {
-        $(this).tooltip("hide");
         let numCorrect = 0;
         let numTotal = 0;
         for (let i = 1; i < 6; i++) {
