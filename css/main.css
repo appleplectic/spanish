@@ -2,7 +2,11 @@ body {
   padding: 15px;
 }
 
-.mb-3 {
+#csvSettings {
+  max-width: 600px;
+}
+
+.max-width {
   max-width: 400px;
 }
 
@@ -65,7 +69,7 @@ body {
 
 .wrap-text {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
 }
 
 /*# sourceMappingURL=main.css.map */

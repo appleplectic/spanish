@@ -72,7 +72,7 @@ function newConjugation() {
     const verbIndex = Math.floor(Math.random() * csv.length);
     const subjects = firstLine.slice(2);
     const subjectIndex = Math.floor(Math.random() * 6);
-    // const extraNotes = csv[verbIndex][2];
+    const extraNotes = csv[verbIndex][9];
     $("#conj")[0].innerHTML = subjects[subjectIndex] + " " + csv[verbIndex][0];
     if (checkDef.checked) {
         def.focus();
@@ -84,7 +84,7 @@ function newConjugation() {
     defAnswer = csv[verbIndex][1];
     $("#defAnswer")[0].innerHTML = defAnswer;
     $("#conjAnswer")[0].innerHTML = conjAnswer;
-    // $("#extra")[0].innerHTML = extraNotes;
+    $("#extra")[0].innerHTML = extraNotes;
 }
 conj.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
