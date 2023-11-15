@@ -45,7 +45,7 @@ function parseCSV(results) {
 }
 $("#useDefault")[0].addEventListener("click", function () {
     // @ts-expect-error types broken
-    Papa.parse("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/spanish.csv", {
+    Papa.parse("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/1127quiz.csv", {
         download: true,
         complete: parseCSV
     });
