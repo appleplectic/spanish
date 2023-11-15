@@ -43,12 +43,24 @@ function parseCSV(results) {
     csv = data;
     newConjugation();
 }
-$("#useDefault")[0].addEventListener("click", function () {
+function loadCSVFromOnline(url) {
     // @ts-expect-error types broken
-    Papa.parse("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/1127quiz.csv", {
+    Papa.parse(url, {
         download: true,
         complete: parseCSV
     });
+}
+$("#useDefault")[0].addEventListener("click", function () {
+    loadCSVFromOnline("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/1127quiz.csv");
+});
+$("#regPresent")[0].addEventListener("click", function () {
+    loadCSVFromOnline("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/regular.csv");
+});
+$("#irregPresent")[0].addEventListener("click", function () {
+    loadCSVFromOnline("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/irregpres.csv");
+});
+$("#regPast")[0].addEventListener("click", function () {
+    loadCSVFromOnline("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/regpreterite.csv");
 });
 inputElement.addEventListener("change", function (event) {
     const fileInput = event.target;
@@ -72,7 +84,10 @@ function newConjugation() {
     const verbIndex = Math.floor(Math.random() * csv.length);
     const subjects = firstLine.slice(2);
     const subjectIndex = Math.floor(Math.random() * 6);
-    const extraNotes = csv[verbIndex][9];
+    let extraNotes = csv[verbIndex][9];
+    if (extraNotes === undefined) {
+        extraNotes = "";
+    }
     $("#conj")[0].innerHTML = subjects[subjectIndex] + " " + csv[verbIndex][0];
     if (checkDef.checked) {
         def.focus();
