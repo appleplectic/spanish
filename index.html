@@ -52,29 +52,32 @@
 </div>
 <div class="spacer-1"></div>
 
-<div class="invisible" id="hid">
+<div class="invisible center larger" id="hid">
     <h2 id="conj"></h2>
     <div class="spacer-1"></div>
 
     <div id="defHide">
-        <div class="mb-3 max-width">
+        <div class="mb-3 label-input-container">
             <label for="defInput">Definition</label>
-            <input class="form-control" id="defInput" placeholder="Enter definition" type="text">
+            <input class="form-control max-width" id="defInput" placeholder="Enter definition" type="text">
         </div>
     </div>
 
     <div id="conjHide">
-        <div class="mb-3 max-width">
+        <div class="mb-3 label-input-container">
             <label for="conjInput">Conjugation</label>
-            <input class="form-control" id="conjInput" placeholder="Enter conjugation" type="text">
+            <input class="form-control max-width" id="conjInput" placeholder="Enter conjugation" type="text">
         </div>
         <div class="spacer-2"></div>
     </div>
 
     <div class="spacer-2"></div>
-    <button class="btn btn-primary" id="sub" style="text-align: center;" type="submit">Submit</button>
 
-    <button class="btn btn-info" data-bs-target="#helpModal" data-bs-toggle="modal" type="button">Help</button>
+    <div class="horizontal-center">
+        <button class="btn btn-primary" id="sub" style="text-align: center;" type="submit">Submit</button>
+        <div class="spacer-2"></div>
+        <button class="btn btn-info" data-bs-target="#helpModal" data-bs-toggle="modal" type="button">Help</button>
+    </div>
 
     <div aria-hidden="true" aria-labelledby="helpModalLabel" class="modal fade" id="helpModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -102,8 +105,8 @@
     <div class="spacer-1"></div>
 
     <div class="wrap-text">
-        <p>Simulate a test by generating practice sentences. It's mildly janky, so be patient; errors will occur. Donate
-            to generate more, better practice sentences!</p>
+        <p>Simulate a test by generating practice sentences. It's mildly janky, so be patient; errors will occur, and
+            answers will be wrong. Donate to generate more, better practice sentences!</p>
     </div>
     <div class="spacer-1"></div>
 
@@ -115,31 +118,11 @@
 
     <div class="spacer-1"></div>
 
-    <h6 class="invisible" id="sentence1">
-        Hello
-        <input class="form-control d-inline-block" id="blank1" type="text">
-        Hello
-    </h6>
-    <h6 class="invisible" id="sentence2">
-        Hello
-        <input class="form-control d-inline-block" id="blank2" type="text">
-        Hello
-    </h6>
-    <h6 class="invisible" id="sentence3">
-        Hello
-        <input class="form-control d-inline-block" id="blank3" type="text">
-        Hello
-    </h6>
-    <h6 class="invisible" id="sentence4">
-        Hello
-        <input class="form-control d-inline-block" id="blank4" type="text">
-        Hello
-    </h6>
-    <h6 class="invisible" id="sentence5">
-        Hello
-        <input class="form-control d-inline-block" id="blank5" type="text">
-        Hello
-    </h6>
+    <h6 class="invisible" id="sentence1"></h6>
+    <h6 class="invisible" id="sentence2"></h6>
+    <h6 class="invisible" id="sentence3"></h6>
+    <h6 class="invisible" id="sentence4"></h6>
+    <h6 class="invisible" id="sentence5"></h6>
 
     <div class="spacer-2"></div>
     <button class="btn btn-primary invisible" id="subSentences" type="button">Submit Sentences</button>
