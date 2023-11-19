@@ -15,6 +15,8 @@ const defHide = $("#defHide")[0];
 const conjHide = $("#conjHide")[0];
 const flashHide = $("#flashcardHide")[0];
 const allHide = $("#allHide")[0];
+// For Flashcards
+let index = 0;
 checkDef.checked = true;
 checkConj.checked = true;
 checkFlash.checked = false;
@@ -66,6 +68,12 @@ function parseCSV(results) {
     }
     $("#hid")[0].classList.toggle("invisible", false);
     csv = data;
+    index = 0;
+    const currentFlashcard = document.querySelector(".flashcard");
+    currentFlashcard.classList.remove("fly-off-left");
+    currentFlashcard.classList.remove("fly-off-right");
+    currentFlashcard.classList.remove("fly-on-left");
+    currentFlashcard.classList.remove("fly-on-right");
     $("#frontH")[0].innerHTML = csv[0][0];
     $("#backH")[0].innerHTML = csv[0][1];
     newConjugation();
@@ -228,9 +236,11 @@ ${splitted[1]} (${randomArr[0]}/${randomArr[1]})`;
         sentence.classList.toggle("invisible", false);
         if (error.toString().includes("Verb Not Found")) {
             if (tryAgain) {
+                console.log("Trying again...");
                 getSentence(csv, i, refAnswerList, false);
             }
             else {
+                console.log("Failed for second time");
                 sentence.innerHTML = "";
             }
         }
@@ -241,11 +251,19 @@ ${splitted[1]} (${randomArr[0]}/${randomArr[1]})`;
     return "";
 }
 const genSentence = $("#genSentences")[0];
-genSentence.addEventListener("click", function () {
+const timeAfterClick = new Date().getTime() - localStorage["lastPressed"];
+if (timeAfterClick < 60000) {
     genSentence.disabled = true;
     setTimeout(function () {
         genSentence.disabled = false;
-    }, 120000);
+    }, timeAfterClick);
+}
+genSentence.addEventListener("click", function () {
+    genSentence.disabled = true;
+    localStorage["lastPressed"] = new Date().getTime();
+    setTimeout(function () {
+        genSentence.disabled = false;
+    }, 60000);
     const subSentences = $("#subSentences")[0];
     subSentences.classList.toggle("invisible", false);
     const answerList = {};
@@ -272,6 +290,21 @@ genSentence.addEventListener("click", function () {
         }
         $("#senResult")[0].innerHTML = `${numCorrect} / ${numTotal} - ${Math.round((numCorrect / numTotal) * 100)}%`;
     });
+});
+const genPracticeTest = $("#genPracticeTest")[0];
+const timeAfterTest = new Date().getTime() - localStorage["lastTest"];
+if (timeAfterTest < 60000) {
+    genPracticeTest.disabled = true;
+    setTimeout(function () {
+        genPracticeTest.disabled = false;
+    }, timeAfterTest);
+}
+genPracticeTest.addEventListener("click", function () {
+    genPracticeTest.disabled = true;
+    localStorage["lastTest"] = new Date().getTime();
+    setTimeout(function () {
+        genPracticeTest.disabled = false;
+    }, 3000000);
 });
 // Debounce
 let canClick = true;
@@ -308,7 +341,6 @@ document.addEventListener("keydown", function (key) {
         debouncedLeftArrowClick();
     }
 });
-let index = 0;
 function handleLeftArrowClick() {
     index--;
     if (index < 0) {
@@ -346,15 +378,17 @@ function handleArrowClick(left) {
         }
         const front = document.createElement("div");
         front.className = "front";
-        const frontP = document.createElement("h2");
-        frontP.innerHTML = csv[index][0];
-        front.appendChild(frontP);
+        const frontH = document.createElement("h2");
+        frontH.innerHTML = csv[index][0];
+        frontH.id = "frontH";
+        front.appendChild(frontH);
         newFlashcard.appendChild(front);
         const back = document.createElement("div");
         back.className = "back";
-        const backP = document.createElement("h2");
-        backP.innerHTML = csv[index][1];
-        back.appendChild(backP);
+        const backH = document.createElement("h2");
+        backH.innerHTML = csv[index][1];
+        backH.id = "backH";
+        back.appendChild(backH);
         newFlashcard.appendChild(back);
         $("#flashcardHide")[0].prepend(newFlashcard);
         newFlashcard.addEventListener("click", function () {

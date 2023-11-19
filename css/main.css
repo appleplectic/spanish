@@ -24,7 +24,7 @@ body {
 .top-right p {
   font-size: 14px;
 }
-@media (min-width: 600px) {
+@media (min-width: 760px) {
   .top-right {
     margin: 25px;
   }
@@ -33,7 +33,7 @@ body {
   }
 }
 
-#genSentences {
+#genPracticeTest, #genSentences {
   pointer-events: auto;
 }
 
@@ -62,7 +62,7 @@ body {
 
 .wrap-text {
   width: 100%;
-  max-width: 600px;
+  max-width: 550px;
 }
 
 .center {
