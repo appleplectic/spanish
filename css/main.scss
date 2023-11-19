@@ -19,13 +19,13 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  margin: 8px;
+  margin: 10px;
 
   p {
-    font-size: 14px;
+    font-size: 12px;
   }
 
-  @media (min-width: 760px) {
+  @media (min-width: 770px) {
     margin: 25px;
 
     p {
@@ -77,6 +77,13 @@ body {
 .horizontal-center {
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 427px) {
+  .horizontal-center {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .max-width {
