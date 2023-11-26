@@ -291,7 +291,8 @@ genSentence.addEventListener("click", function () {
         $("#senResult")[0].innerHTML = `${numCorrect} / ${numTotal} - ${Math.round((numCorrect / numTotal) * 100)}%`;
     });
 });
-const genPracticeTest = $("#genPracticeTest")[0];
+/*
+const genPracticeTest = $("#genPracticeTest")[0] as HTMLButtonElement;
 const timeAfterTest = new Date().getTime() - localStorage["lastTest"];
 if (timeAfterTest < 60000) {
     genPracticeTest.disabled = true;
@@ -305,7 +306,9 @@ genPracticeTest.addEventListener("click", function () {
     setTimeout(function () {
         genPracticeTest.disabled = false;
     }, 3000000);
+
 });
+*/
 // Debounce
 let canClick = true;
 function debounce(func, wait) {

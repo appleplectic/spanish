@@ -322,7 +322,7 @@ genSentence.addEventListener("click", function () {
         $("#senResult")[0].innerHTML = `${numCorrect} / ${numTotal} - ${Math.round((numCorrect / numTotal) * 100)}%`;
     });
 });
-
+/*
 const genPracticeTest = $("#genPracticeTest")[0] as HTMLButtonElement;
 const timeAfterTest = new Date().getTime() - localStorage["lastTest"];
 if (timeAfterTest < 60000) {
@@ -339,7 +339,7 @@ genPracticeTest.addEventListener("click", function () {
     }, 3000000);
 
 });
-
+*/
 // Debounce
 let canClick = true;
 
