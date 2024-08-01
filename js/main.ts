@@ -274,7 +274,7 @@ ${splitted[1]} (${randomArr[0]}/${randomArr[1]})`;
                     sentence.innerHTML = "";
                 }
             } else {
-                sentence.innerHTML = "Errored. Try waiting a few minutes before pressing again; if the error recurs, contact Levin or donate!";
+                sentence.innerHTML = "Errored. Try waiting a few minutes before pressing again.";
             }
         });
     return "";
