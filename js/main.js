@@ -86,19 +86,22 @@ function loadCSVFromOnline(url) {
     });
 }
 $("#useDefault")[0].addEventListener("click", function () {
+    loadCSVFromOnline("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/subPres.csv");
+});
+$("#imperfect")[0].addEventListener("click", function () {
     loadCSVFromOnline("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/imperfect.csv");
 });
 $("#irregPast")[0].addEventListener("click", function () {
-    loadCSVFromOnline("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/1127quiz.csv");
+    loadCSVFromOnline("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/irregPast.csv");
 });
 $("#regPresent")[0].addEventListener("click", function () {
     loadCSVFromOnline("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/regular.csv");
 });
 $("#irregPresent")[0].addEventListener("click", function () {
-    loadCSVFromOnline("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/irregpres.csv");
+    loadCSVFromOnline("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/irregPres.csv");
 });
 $("#regPast")[0].addEventListener("click", function () {
-    loadCSVFromOnline("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/regpreterite.csv");
+    loadCSVFromOnline("https://raw.githubusercontent.com/appleplectic/spanish-csv/main/regPast.csv");
 });
 const inputElement = $("#formFile")[0];
 inputElement.addEventListener("change", function (event) {
